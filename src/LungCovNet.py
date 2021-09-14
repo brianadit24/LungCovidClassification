@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 from torchvision.models import resnet34
 
@@ -22,3 +23,10 @@ class LungCovNet(nn.Module):
     def unfreeze(self):
         for param in self.basemodel.parameters():
             param.requires_grad = True # Unfreezing Weight
+
+    def predict(self, x):
+        with torch.no_grad():
+            self.basemodel.eval()
+            output = self.basemodel(x)
+            preds = output.argmax(1)
+        return preds
