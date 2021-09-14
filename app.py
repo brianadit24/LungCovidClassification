@@ -6,4 +6,5 @@ from src.LungCovNet import LungCovNet
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 input = transform_image('/home/brianadit24/Downloads/AI_Research/LungCovid/COVID-190.png')
-print(input.shape)
+
+model = LungCovNet(output_size=2)
