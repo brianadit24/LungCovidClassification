@@ -1,5 +1,10 @@
 # Lung Covid Classification using ResNet34
+
+![Index_Result](results/result.png)
+
+## Introduction
 This is API for predict X-Ray Lung image to classify covid or normal.
+
 ## Tutorial
 
 Clone the project
@@ -45,18 +50,26 @@ Content-Type: multipart/form-data
 ## Result Example
 
 **Input:**<br>
-![Mask](results/mask.jpg)
+![Covid](results/COVID.png)
 
 **Output:**<br>
-![Result_Mask](results/result_mask.jpg)
+```python
+  {
+    "result": "covid"
+  }
+```
 
 ---
 
 **Input:**<br>
-![NoMask](results/no_mask.jpg)
+![Normal](results/Normal.png)
 
 **Output:**<br>
-![Result_NoMask](results/no_mask_result.jpg) 
+```python
+  {
+    "result": "normal"
+  }
+```
   
 ## Feedback
 
