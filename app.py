@@ -1,14 +1,43 @@
-import torch
-from src.load_img_transform import transform_image
-from src.LungCovNet import LungCovNet
+import os
+from flask import Flask, request
+from model import predict_lung
+from werkzeug.exceptions import BadRequest, InternalServerError
 
-# Support to GPU and CPU
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+app = Flask(__name__)
 
-input = transform_image('/home/brianadit24/Downloads/AI_Research/LungCovid/COVID-190.png')
+@app.errorhandler(BadRequest)
+def bad_request_handler(error):
+    return {
+        "error": error.description
+    }, 400
 
-model = LungCovNet(output_size=2)
-model.load_state_dict(torch.load('model/weights_best.pth', map_location=device))
 
-preds = model.predict(input)
-print(preds)
+@app.errorhandler(InternalServerError)
+def internal_server_error_handler(error):
+    return {
+        "error": error.description
+    }, 500
+
+
+@app.route("/predict", methods=['POST'])
+def predict():
+    file = request.files.get('image')
+    if not file:
+        return {
+            "error": "Image is required"
+        }, 400
+    
+    supported_mimetypes = ["image/jpeg", "image/png"]
+    mimetype = file.content_type
+    if mimetype not in supported_mimetypes:
+        return {
+            "error": "Unsupported image type"
+        }, 415
+
+    prediction = predict_lung(file)
+    return {
+        "result": prediction
+    }, 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port="8080")
