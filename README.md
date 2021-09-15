@@ -1,4 +1,5 @@
 # Lung Covid Classification using ResNet34
+[![Docker Push](https://github.com/brianadit24/LungCovidClassification/workflows/docker-build-push/badge.svg)](https://github.com/brianadit24/LungCovidClassification/actions)
 
 ![Index_Result](results/result.png)
 
